@@ -1,0 +1,111 @@
+{
+  "edition": "Q1 2026",
+  "numero": 1,
+  "date": "Mars 2026",
+  "score": 63,
+  "niveau": "P2",
+  "nom_niveau": "SERVITUDE",
+  "velocite": "+4,2",
+  "velocite_label": "ACCÉLÉRATION",
+  "description_niveau": "Les libertés fondamentales sont en recul structurel. La dépendance systémique à l'État s'est normalisée. Les contre-pouvoirs s'affaiblissent progressivement.",
+
+  "tentacules": [
+    {
+      "num": "01",
+      "nom": "Fiscalité & Propriété Privée",
+      "score": 71,
+      "delta": "+3,1",
+      "sens": "up",
+      "niveau": "red",
+      "signal": "Pilier 2 OCDE (taux min. 15%) en vigueur dans 30+ pays. Dépenses publiques à 47% du PIB mondial moyen."
+    },
+    {
+      "num": "02",
+      "nom": "Liberté d'Expression & Censure",
+      "score": 64,
+      "delta": "+5,8",
+      "sens": "up",
+      "niveau": "red",
+      "signal": "DSA européen — 19 plateformes sous obligation de modération. 533 journalistes emprisonnés en 2025 (IFJ)."
+    },
+    {
+      "num": "03",
+      "nom": "Monnaie & Contrôle Financier",
+      "score": 70,
+      "delta": "+2,0",
+      "sens": "up",
+      "niveau": "red",
+      "signal": "137 pays explorent une CBDC (98% du PIB mondial). Euro numérique en phase pilote 2027. 111 pays CRS."
+    },
+    {
+      "num": "04",
+      "nom": "Régulation & Liberté Économique",
+      "score": 58,
+      "delta": "+2,4",
+      "sens": "up",
+      "niveau": "orange",
+      "signal": "Indice Fraser : 4e année consécutive de recul de la liberté économique mondiale. AI Act en vigueur."
+    },
+    {
+      "num": "05",
+      "nom": "Surveillance & Vie Privée",
+      "score": 63,
+      "delta": "+1,0",
+      "sens": "up",
+      "niveau": "red",
+      "signal": "75 pays déploient la reconnaissance faciale dans l'espace public. Londres : 1M de visages scannés en 2025."
+    },
+    {
+      "num": "06",
+      "nom": "Démocratie & Capture Institutionnelle",
+      "score": 60,
+      "delta": "+1,0",
+      "sens": "up",
+      "niveau": "orange",
+      "signal": "EIU : démocratie retombée au niveau de 1978 (V-Dem). 6,6% de la population mondiale en démocratie pleine."
+    },
+    {
+      "num": "07",
+      "nom": "Liberté de Mouvement & Expatriation",
+      "score": 54,
+      "delta": "+2,0",
+      "sens": "up",
+      "niveau": "orange",
+      "signal": "Golden visa espagnol supprimé (avril 2025). Portugal ferme la voie immobilière. ETIAS obligatoire en 2027."
+    }
+  ],
+
+  "signaux": [
+    {
+      "tentacule": "⚠ Tentacule 01 — Fiscal",
+      "titre": "La Commission européenne prépare une taxation élargie de la richesse",
+      "corps": "Un rapport de 300 pages commandé par DG TAXUD explore cinq instruments : ISF européen, taxation des plus-values latentes, renforcement des successions, exit tax incontournable, registres centralisés d'actifs. Étape 1 de la séquence législative.",
+      "impact": "Impact estimé : +1 sur T01"
+    },
+    {
+      "tentacule": "⚠ Tentacule 03 — Monétaire",
+      "titre": "Afrique du Sud : déclarer son Bitcoin ou aller en prison",
+      "corps": "Le Trésor sud-africain impose la déclaration obligatoire de tous les crypto-actifs à la frontière sous peine de 5 ans d'emprisonnement. Les agents pourront fouiller les téléphones. Une disposition prévoit la conversion forcée en monnaie locale à taux fixé par l'État.",
+      "impact": "Impact estimé : +1 sur T03, +0,5 sur T07"
+    },
+    {
+      "tentacule": "⚠ Tentacule 02 + 04 — Expression & Régulation",
+      "titre": "Amsterdam interdit les publicités pour la viande et les SUV",
+      "corps": "Première capitale mondiale à bannir la pub pour des produits légaux dans l'espace public. Le précédent juridique est établi : une autorité publique peut décider quels produits légaux ont le droit d'être promus. Florence suit en février 2026. 50+ villes dans le sillage.",
+      "impact": "Impact estimé : +0,5 sur T02, +0,5 sur T04"
+    }
+  ],
+
+  "bulletins": [
+    {
+      "edition": "Q1 2026",
+      "numero": 1,
+      "titre": "Première édition — Lancement de l'Indice",
+      "date": "Mars 2026",
+      "score": 63,
+      "meta": "7 tentacules · Score initial · Méthodologie complète",
+      "fichier": "bulletins/indice-leviathan-Q1-2026.pdf",
+      "latest": true
+    }
+  ]
+}

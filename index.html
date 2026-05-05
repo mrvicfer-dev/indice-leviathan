@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Indice Léviathan — Baromètre mondial des libertés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@300;400;600;700&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2EEE8;--bg2:#E8E3DB;--bg3:#DDD8CE;--ink:#1A1714;--ink2:#3D3830;--ink3:#7A7268;--red:#B03020;--red-bg:rgba(176,48,32,0.07);--red-border:rgba(176,48,32,0.2);--rule:rgba(26,23,20,0.1);--rule2:rgba(26,23,20,0.06);--d5:#1A6B3A;--d4:#9A7A00;--d3:#B05010;--d2:#B03020;--d1:#1A1714;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Spectral',Georgia,serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--red);}
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity 0.5s;}
+#loading.hidden{opacity:0;pointer-events:none;}
+.l-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--ink);margin-bottom:8px;text-align:center;}
+.l-title span{color:var(--red);}
+.l-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--ink3);text-align:center;margin-bottom:20px;}
+.l-bar{width:200px;height:2px;background:var(--rule);overflow:hidden;}
+.l-bar-fill{height:100%;background:var(--red);animation:lb 1s ease forwards;}
+@keyframes lb{from{width:0}to{width:100%}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(242,238,232,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 48px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);text-decoration:none;}
+.nav-brand span{color:var(--red);}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--red);}
+.nav-cta{color:var(--bg)!important;background:var(--ink);padding:8px 18px;transition:background 0.2s!important;}
+.nav-cta:hover{background:var(--red)!important;}
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 80px 80px;position:relative;border-bottom:2px solid var(--ink);overflow:hidden;}
+.h-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Playfair Display',serif;font-size:clamp(100px,16vw,260px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(26,23,20,0.055);white-space:nowrap;pointer-events:none;letter-spacing:-0.04em;user-select:none;}
+.h-eye{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:16px;}
+.h-eye::before{content:'';display:block;width:40px;height:1px;background:var(--red);}
+.h-title{font-family:'Playfair Display',serif;font-size:clamp(48px,7vw,92px);font-weight:900;letter-spacing:-0.03em;line-height:0.95;margin-bottom:32px;}
+.h-title .a{color:var(--red);}
+.h-desc{font-family:'Spectral',serif;font-size:18px;font-style:italic;color:var(--ink2);max-width:560px;line-height:1.6;margin-bottom:48px;}
+.h-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;}
+.h-scores{display:flex;align-items:stretch;gap:2px;}
+.h-box{padding:20px 28px;display:flex;flex-direction:column;gap:4px;}
+.h-box.dark{background:var(--ink);}
+.h-box.red{background:var(--red);}
+.h-box.light{background:var(--bg);border:1px solid var(--rule);}
+.h-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;}
+.h-box.dark .h-lbl,.h-box.red .h-lbl{color:rgba(242,238,232,0.5);}
+.h-box.light .h-lbl{color:var(--ink3);}
+.h-val{font-family:'JetBrains Mono',monospace;font-weight:700;line-height:1;}
+.h-box.dark .h-val{font-size:44px;color:var(--bg);}
+.h-box.dark .h-val .dn{font-size:18px;opacity:0.4;}
+.h-box.red .h-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--bg);letter-spacing:0.05em;}
+.h-box.light .h-val{font-size:18px;color:var(--red);}
+.h-author{text-align:right;font-style:italic;color:var(--ink3);font-size:14px;}
+.h-author strong{color:var(--red);font-style:normal;font-weight:600;}
+.h-edition{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink3);text-transform:uppercase;margin-top:6px;}
+section{padding:100px 80px;}
+.s-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+.s-eye::before{content:'';display:block;width:28px;height:1px;background:var(--red);}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,50px);font-weight:900;letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;}
+.s-title .a{color:var(--red);}
+.s-lead{font-size:18px;font-style:italic;color:var(--ink2);max-width:640px;line-height:1.65;margin-bottom:60px;}
+#barometre{background:var(--bg2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px;}
+.tc{background:var(--bg);padding:26px 28px;position:relative;transition:transform 0.2s,box-shadow 0.2s;}
+.tc:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,23,20,0.08);z-index:2;}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.tc.cr::before{background:var(--d2);}.tc.co::before{background:var(--d3);}.tc.cy::before{background:var(--d4);}
+.tc.wide{grid-column:span 3;}
+.tn{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);letter-spacing:0.22em;margin-bottom:6px;}
+.tname{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:14px;}
+.trow{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px;}
+.tscore{font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700;line-height:1;}
+.tdelta{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-bottom:3px;}
+.up{color:var(--d2);}.down{color:var(--d5);}
+.tbar{height:3px;background:var(--bg3);margin-bottom:12px;overflow:hidden;}
+.tbar-fill{height:100%;transition:width 1.2s ease;}
+.tsig{font-size:12px;color:var(--ink3);line-height:1.65;border-left:2px solid var(--bg3);padding-left:11px;}
+.tsig strong{color:var(--ink2);font-weight:600;}
+.cr-c{color:var(--d2);}.co-c{color:var(--d3);}.cy-c{color:var(--d4);}
+.cr-b{background:var(--d2);}.co-b{background:var(--d3);}.cy-b{background:var(--d4);}.cg-b{background:var(--d5);}.cd-b{background:#666;}
+.drow{display:flex;gap:2px;margin-top:16px;}
+.ds{flex:1;padding:13px 14px;border:1px solid var(--rule2);background:var(--bg);}
+.ds.act{border-color:var(--red);background:var(--red-bg);}
+.dd{width:8px;height:8px;border-radius:50%;display:inline-block;margin-bottom:5px;}
+.dn2{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.07em;color:var(--ink);display:block;margin-bottom:2px;}
+.dr{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);}
+#signaux{background:var(--bg);}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.sc{background:var(--bg2);padding:26px 28px;border-top:3px solid var(--rule);transition:border-color 0.2s;}
+.sc:hover{border-top-color:var(--red);}
+.st{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.22em;color:var(--red);text-transform:uppercase;margin-bottom:9px;}
+.sh{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:11px;}
+.sb{font-size:13px;color:var(--ink3);line-height:1.7;margin-bottom:13px;}
+.si{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.12em;color:var(--ink3);border:1px solid var(--rule);display:inline-block;padding:3px 10px;}
+#bulletins{background:var(--bg2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+.blist{display:flex;flex-direction:column;gap:2px;}
+.bi{background:var(--bg);padding:26px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px;transition:background 0.2s;border-left:3px solid transparent;}
+.bi:hover{background:var(--bg2);border-left-color:var(--red);}
+.bi.lat{border-left-color:var(--red);background:var(--red-bg);}
+.bi-l{display:flex;align-items:center;gap:24px;}
+.bi-ed{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--red);white-space:nowrap;}
+.bi-dv{width:1px;height:34px;background:var(--rule);}
+.bi-inf{display:flex;flex-direction:column;gap:4px;}
+.bi-ti{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);}
+.bi-me{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.1em;}
+.bi-sc{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--ink);white-space:nowrap;}
+.bi-sc .dn{font-size:12px;color:var(--ink3);}
+.bi-ac{display:flex;gap:8px;align-items:center;}
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:10px 20px;text-decoration:none;background:var(--ink);color:var(--bg);transition:background 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.btn:hover{background:var(--red);}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);}
+.btn.sec:hover{background:var(--red);color:var(--bg);border-color:var(--red);}
+#methodologie{background:var(--bg);}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+.mb{margin-bottom:38px;}
+.mb-n{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);letter-spacing:0.3em;margin-bottom:7px;}
+.mb-t{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:11px;}
+.mb-b{font-size:14px;color:var(--ink2);line-height:1.75;}
+.mright{position:sticky;top:80px;}
+.mc{background:var(--bg2);padding:32px;border:1px solid var(--rule);margin-bottom:14px;}
+.mc-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.28em;color:var(--ink3);text-transform:uppercase;margin-bottom:11px;}
+.mc-t{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:9px;}
+.mc-b{font-size:13px;color:var(--ink2);line-height:1.7;}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:var(--ink3);border:1px solid var(--rule);padding:4px 9px;background:var(--bg);}
+#apropos{background:var(--ink);color:var(--bg);}
+#apropos .s-eye{color:rgba(176,48,32,0.85);}#apropos .s-eye::before{background:rgba(176,48,32,0.85);}
+#apropos .s-title{color:var(--bg);}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.at{font-size:16px;color:rgba(242,238,232,0.7);line-height:1.8;}
+.at p{margin-bottom:18px;}
+.at strong{color:var(--bg);font-weight:600;}
+.aq{border-left:3px solid var(--red);padding:22px 26px;background:rgba(242,238,232,0.04);font-style:italic;font-size:17px;color:rgba(242,238,232,0.85);line-height:1.65;}
+.aq cite{display:block;margin-top:12px;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;}
+footer{background:var(--ink);border-top:1px solid rgba(242,238,232,0.08);padding:36px 80px;display:flex;align-items:center;justify-content:space-between;}
+.fb{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--bg);}
+.fb span{color:var(--red);}
+.fm{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.1em;color:rgba(242,238,232,0.3);text-align:center;line-height:1.8;}
+.fr{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(242,238,232,0.3);text-align:right;letter-spacing:0.08em;line-height:1.8;}
+.fr a{color:var(--red);text-decoration:none;}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+@media(max-width:900px){
+  nav{padding:0 20px;}.nav-links{gap:14px;}
+  section{padding:60px 20px;}#hero{padding:90px 20px 60px;}
+  .tgrid{grid-template-columns:1fr;}.tc.wide{grid-column:span 1;}
+  .sgrid{grid-template-columns:1fr;}.mgrid{grid-template-columns:1fr;}.agrid{grid-template-columns:1fr;}
+  .h-bottom{flex-direction:column;align-items:flex-start;}
+  .drow{flex-direction:column;}
+  footer{flex-direction:column;gap:20px;text-align:center;}
+  .bi{flex-direction:column;align-items:flex-start;}.bi-ac{width:100%;}
+  .btn{flex:1;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div>
+    <div class="l-title">L'Indice <span>Léviathan</span></div>
+    <div class="l-sub">CHARGEMENT DES DONNÉES</div>
+    <div class="l-bar"><div class="l-bar-fill"></div></div>
+  </div>
+</div>
+
+<nav>
+  <a href="#hero" class="nav-brand">L'Indice <span>Léviathan</span></a>
+  <ul class="nav-links">
+    <li><a href="#barometre">Baromètre</a></li>
+    <li><a href="#signaux">Signaux</a></li>
+    <li><a href="#bulletins">Bulletins</a></li>
+    <li><a href="#methodologie">Méthodologie</a></li>
+    <li><a href="https://patreon.com/VictorFerry" target="_blank" class="nav-cta">Patreon</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="h-bg" aria-hidden="true">LÉVIATHAN</div>
+  <div class="h-eye">Baromètre mondial des libertés</div>
+  <h1 class="h-title">L'Indice<br><span class="a">Léviathan</span></h1>
+  <p class="h-desc">Mesurer l'avancement du monde vers une dystopie de contrôle étatique total — là où les autres indicateurs regardent ailleurs.</p>
+  <div class="h-bottom">
+    <div class="h-scores">
+      <div class="h-box dark">
+        <div class="h-lbl">Score global</div>
+        <div class="h-val"><span id="h-score">—</span><span class="dn">/100</span></div>
+      </div>
+      <div class="h-box red">
+        <div class="h-lbl">Niveau</div>
+        <div class="h-val"><span id="h-niveau">—</span> — <span id="h-nom">—</span></div>
+      </div>
+      <div class="h-box light">
+        <div class="h-lbl">Vélocité</div>
+        <div class="h-val">▲ <span id="h-vel">—</span> pts/an</div>
+      </div>
+    </div>
+    <div class="h-author">
+      par <strong>Victor Ferry</strong>
+      <div class="h-edition" id="h-edition">—</div>
+    </div>
+  </div>
+</section>
+
+<section id="barometre">
+  <div class="s-eye" id="b-eye">—</div>
+  <h2 class="s-title">Les 7 <span class="a">Tentacules</span></h2>
+  <p class="s-lead">Chaque dimension mesure une emprise de l'État sur la vie des individus. Score de 0 (liberté totale) à 100 (contrôle total).</p>
+  <div class="tgrid" id="tgrid"></div>
+  <div class="drow" id="drow"></div>
+</section>
+
+<section id="signaux">
+  <div class="s-eye" id="sig-eye">Signaux du trimestre</div>
+  <h2 class="s-title">Alertes &amp; <span class="a">Signaux</span></h2>
+  <p class="s-lead">Événements identifiés ce trimestre susceptibles d'impacter le prochain score.</p>
+  <div class="sgrid" id="sgrid"></div>
+</section>
+
+<section id="bulletins">
+  <div class="s-eye">Archives</div>
+  <h2 class="s-title">Les <span class="a">Bulletins</span></h2>
+  <p class="s-lead">Téléchargez les éditions complètes avec méthodologie, scores détaillés et analyse des signaux.</p>
+  <div class="blist" id="blist"></div>
+</section>
+
+<section id="methodologie">
+  <div class="s-eye">Comment ça marche</div>
+  <h2 class="s-title">La <span class="a">Méthodologie</span></h2>
+  <p class="s-lead">Un indicateur honnête sur une réalité que peu d'outils mesurent — construit depuis une perspective libertarienne assumée.</p>
+  <div class="mgrid">
+    <div>
+      <div class="mb fade-up">
+        <div class="mb-n">01 — SCORE</div>
+        <div class="mb-t">Un niveau et une vélocité</div>
+        <div class="mb-b">L'indice produit deux chiffres : un <strong>niveau</strong> (0 à 100) et une <strong>vélocité</strong> (progression sur 12 mois glissants). Un monde à 60/100 qui accélère est plus préoccupant qu'un monde à 70/100 qui ralentit.</div>
+      </div>
+      <div class="mb fade-up">
+        <div class="mb-n">02 — ANCRAGE</div>
+        <div class="mb-t">1989 comme point de référence</div>
+        <div class="mb-b">L'année 1989 — chute du mur de Berlin — constitue le point zéro, estimé à 10/100. Tout ce qui s'est passé depuis est mesuré par rapport à ce repère historique.</div>
+      </div>
+      <div class="mb fade-up">
+        <div class="mb-n">03 — DIMENSIONS</div>
+        <div class="mb-t">7 tentacules à poids égaux</div>
+        <div class="mb-b">Sept dimensions contribuent à parts égales au score global. La notation combine des <strong>données objectives</strong> (indices reconnus) et une <strong>évaluation qualitative éditoriale assumée</strong>.</div>
+      </div>
+      <div class="mb fade-up">
+        <div class="mb-n">04 — PUBLICATION</div>
+        <div class="mb-t">Trimestriel + Flash événementiel</div>
+        <div class="mb-b">Le <strong>Baromètre trimestriel</strong> actualise tous les scores. Le <strong>Flash Léviathan</strong> est publié dès qu'un point de non-retour démocratique est identifié.</div>
+      </div>
+    </div>
+    <div class="mright">
+      <div class="mc fade-up">
+        <div class="mc-l">Positionnement éditorial</div>
+        <div class="mc-t">Un indicateur honnête sur son prisme</div>
+        <div class="mc-b">L'Indice Léviathan est construit depuis une perspective libertarienne assumée. Cette position est explicite — elle est la condition de l'honnêteté intellectuelle de l'indice.</div>
+      </div>
+      <div class="mc fade-up">
+        <div class="mc-l">Sources objectives utilisées</div>
+        <div class="tags">
+          <span class="tag">Fraser Institute</span><span class="tag">EIU Democracy Index</span><span class="tag">RSF Press Freedom</span><span class="tag">CPJ / IFJ</span><span class="tag">FMI CBDC Tracker</span><span class="tag">OCDE</span><span class="tag">Carnegie AI Surveillance</span><span class="tag">CRS OCDE</span><span class="tag">Freedom House</span><span class="tag">V-Dem Institute</span>
+        </div>
+      </div>
+      <div class="mc fade-up">
+        <div class="mc-l">Document complet</div>
+        <div class="mc-t">Méthodologie détaillée</div>
+        <div class="mc-b" style="margin-bottom:14px">Six sections, limites assumées, positionnement éditorial complet.</div>
+        <a href="methodologie.pdf" class="btn" download style="display:inline-flex">↓ Télécharger la méthodologie</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="apropos">
+  <div class="s-eye">Pourquoi cet indice</div>
+  <h2 class="s-title">Contre les <span class="a">indicateurs</span> du contrôle</h2>
+  <div class="agrid">
+    <div class="at">
+      <p>Depuis des décennies, une partie du monde intellectuel et politique a compris quelque chose que la plupart des citoyens ignorent : <strong>celui qui contrôle les données contrôle le débat.</strong></p>
+      <p>Des organisations internationales produisent des indicateurs qui racontent toujours la même histoire : le monde est défaillant, il a besoin de plus d'État, plus de régulation, plus de redistribution.</p>
+      <p>Le problème n'est pas que ces indicateurs existent. Le problème est que <strong>ceux qui croient dans la liberté individuelle n'en produisent pas.</strong> Grâce à l'intelligence artificielle et aux données publiques, c'est désormais possible.</p>
+    </div>
+    <blockquote class="aq">
+      "La dystopie n'arrive pas avec des chars dans les rues. Elle arrive avec des formulaires, des réglementations, des rapports bien documentés, et des fonctionnaires bien intentionnés."
+      <cite>— L'Indice Léviathan, Document méthodologique v1.0</cite>
+    </blockquote>
+  </div>
+</section>
+
+<footer>
+  <div class="fb">L'Indice <span>Léviathan</span></div>
+  <div class="fm" id="f-meta">par Victor Ferry · Baromètre trimestriel des libertés mondiales</div>
+  <div class="fr"><span id="f-next">—</span><br><a href="https://patreon.com/VictorFerry" target="_blank">Patreon →</a></div>
+</footer>
+
+<script>
+const DEFCON=[
+  {num:5,name:'P5 — LIBERTÉ',range:'0 – 20',dot:'cg-b'},
+  {num:4,name:'P4 — SURVEILLANCE',range:'21 – 40',dot:'cy-b'},
+  {num:3,name:'P3 — CONTRÔLE',range:'41 – 60',dot:'co-b'},
+  {num:2,name:'P2 — SERVITUDE',range:'61 – 80',dot:'cr-b'},
+  {num:1,name:'P1 — DYSTOPIE',range:'81 – 100',dot:'cd-b'},
+];
+
+function nextEd(ed){
+  const m={'Q1':'Q2','Q2':'Q3','Q3':'Q4','Q4':'Q1'};
+  const [q,y]=ed.split(' ');
+  return `${m[q]} ${m[q]==='Q1'?+y+1:+y}`;
+}
+
+function pad(n){return String(n).padStart(2,'0');}
+
+function render(d){
+  // Hero
+  document.getElementById('h-score').textContent=d.score;
+  document.getElementById('h-niveau').textContent=d.niveau;
+  document.getElementById('h-nom').textContent=d.nom_niveau;
+  document.getElementById('h-vel').textContent=d.velocite;
+  document.getElementById('h-edition').textContent=`${d.edition} — Édition #${pad(d.numero)}`;
+  document.getElementById('b-eye').textContent=`Édition ${d.edition}`;
+  document.getElementById('sig-eye').textContent=`Signaux — ${d.edition}`;
+  document.getElementById('f-meta').textContent=`par Victor Ferry · ${d.edition} · Score ${d.score}/100 · Niveau ${d.niveau} — ${d.nom_niveau}`;
+  document.getElementById('f-next').textContent=`Prochaine mise à jour : ${nextEd(d.edition)}`;
+
+  // Tentacules
+  const niveauMap={red:'cr',orange:'co',yellow:'cy'};
+  const colorMap={red:'cr-c',orange:'co-c',yellow:'cy-c'};
+  const barMap={red:'cr-b',orange:'co-b',yellow:'cy-b'};
+  document.getElementById('tgrid').innerHTML=d.tentacules.map((t,i)=>{
+    const cls=niveauMap[t.niveau]||'co';
+    const col=colorMap[t.niveau]||'co-c';
+    const bar=barMap[t.niveau]||'co-b';
+    const wide=i===d.tentacules.length-1?' wide':'';
+    const delay=(i%3)*0.1;
+    return `<div class="tc ${cls}${wide} fade-up" style="transition-delay:${delay}s">
+      <div class="tn">TENTACULE ${t.num}</div>
+      <div class="tname">${t.nom}</div>
+      <div class="trow">
+        <div class="tscore ${col}">${t.score}</div>
+        <div class="tdelta ${t.sens}">${t.sens==='up'?'▲':'▼'} ${t.delta}</div>
+      </div>
+      <div class="tbar"><div class="tbar-fill ${bar}" style="width:0" data-w="${t.score}%"></div></div>
+      <div class="tsig">${t.signal}</div>
+    </div>`;
+  }).join('');
+
+  // Defcon scale
+  const activeNum=parseInt(d.niveau.replace('P',''));
+  document.getElementById('drow').innerHTML=DEFCON.map(l=>`
+    <div class="ds${l.num===activeNum?' act':''}">
+      <span class="dd ${l.dot}"></span>
+      <span class="dn2">${l.name}</span>
+      <span class="dr">${l.range}</span>
+    </div>`).join('');
+
+  // Signaux
+  document.getElementById('sgrid').innerHTML=d.signaux.map((s,i)=>`
+    <div class="sc fade-up" style="transition-delay:${i*0.1}s">
+      <div class="st">${s.tentacule}</div>
+      <div class="sh">${s.titre}</div>
+      <div class="sb">${s.corps}</div>
+      <span class="si">${s.impact}</span>
+    </div>`).join('');
+
+  // Bulletins — triés du plus récent au plus ancien
+  const sorted=[...d.bulletins].sort((a,b)=>b.numero-a.numero);
+  document.getElementById('blist').innerHTML=sorted.map((b,i)=>`
+    <div class="bi${b.latest?' lat':''} fade-up" style="transition-delay:${i*0.05}s">
+      <div class="bi-l">
+        <div class="bi-ed">${b.edition} — #${pad(b.numero)}</div>
+        <div class="bi-dv"></div>
+        <div class="bi-inf">
+          <div class="bi-ti">${b.titre}</div>
+          <div class="bi-me">${b.date} · ${b.meta}</div>
+        </div>
+      </div>
+      <div class="bi-sc">${b.score}<span class="dn">/100</span></div>
+      <div class="bi-ac">
+        <a href="${b.fichier}" class="btn" download>↓ Télécharger PDF</a>
+        ${b.latest?'<a href="methodologie.pdf" class="btn sec" download>↓ Méthodologie</a>':''}
+      </div>
+    </div>`).join('');
+
+  // Cacher loading
+  setTimeout(()=>document.getElementById('loading').classList.add('hidden'),900);
+  initObs();
+}
+
+function initObs(){
+  // Fade-up
+  const fo=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');fo.unobserve(e.target);}});
+  },{threshold:0.08});
+  document.querySelectorAll('.fade-up').forEach(el=>fo.observe(el));
+
+  // Barres
+  const bo=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.tbar-fill').forEach(f=>{
+          const w=f.dataset.w;
+          setTimeout(()=>f.style.width=w,100);
+        });
+        bo.unobserve(e.target);
+      }
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.tgrid').forEach(el=>bo.observe(el));
+
+  // Nav active
+  const secs=document.querySelectorAll('section[id]');
+  const lnks=document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id;});
+    lnks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+  },{passive:true});
+}
+
+fetch('data.json')
+  .then(r=>r.json())
+  .then(d=>render(d))
+  .catch(()=>{
+    document.getElementById('loading').innerHTML=`
+      <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#B03020;letter-spacing:0.15em;">
+        ERREUR : data.json introuvable<br><br>
+        <span style="color:#7A7268">Vérifiez que le fichier est présent à la racine du repo.</span>
+      </div>`;
+  });
+</script>
+</body>
+</html>
